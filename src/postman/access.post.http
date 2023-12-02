@@ -1,0 +1,24 @@
+
+@url_dev=http://localhost:4000/v1/api
+### signup
+
+POST {{url_dev}}/shop/signup
+Content-Type: application/json
+
+{
+  "name": "Khanh Nguyen",
+  "email": "newitem1@gmail.com",
+  "password": "123"
+}
+
+
+### login
+
+POST {{url_dev}}/shop/login
+Content-Type: application/json
+x-api-key: 
+
+{
+  "email": "newitem@gmail.com",
+  "password": "123"
+}
