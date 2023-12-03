@@ -1,13 +1,14 @@
 
-@url_dev=http://localhost:4000/v1/api
+@url_dev=http://localhost:3000/v1/api
 ### signup
 
 POST {{url_dev}}/shop/signup
 Content-Type: application/json
+x-api-key: fec4a72b2d6ee57c7d683f0e5317e6160ae7d84439890887e7f1c34952bffc5feb864cad8daa4e3064c7587be53d6e6b931de1835c842ee5d5483d574bfe208d
 
 {
   "name": "Khanh Nguyen",
-  "email": "newitem1@gmail.com",
+  "email": "newitem2@gmail.com",
   "password": "123"
 }
 
@@ -16,9 +17,9 @@ Content-Type: application/json
 
 POST {{url_dev}}/shop/login
 Content-Type: application/json
-x-api-key: 
+x-api-key: fec4a72b2d6ee57c7d683f0e5317e6160ae7d84439890887e7f1c34952bffc5feb864cad8daa4e3064c7587be53d6e6b931de1835c842ee5d5483d574bfe208d
 
 {
-  "email": "newitem@gmail.com",
+  "email": "newitem2@gmail.com",
   "password": "123"
 }
