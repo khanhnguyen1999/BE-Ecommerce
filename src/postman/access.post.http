@@ -4,7 +4,7 @@
 
 POST {{url_dev}}/shop/signup
 Content-Type: application/json
-x-api-key: fec4a72b2d6ee57c7d683f0e5317e6160ae7d84439890887e7f1c34952bffc5feb864cad8daa4e3064c7587be53d6e6b931de1835c842ee5d5483d574bfe208d
+x-api-key: 967a5ee0f1863b1d118ed9950f65a3408e089ac6b5b4fd967e3c979e7753d1f8f50a5d4388722a08a507d9d4b57780a0170a1c18be4428855266f145dc194da7
 
 {
   "name": "Khanh Nguyen",
@@ -17,9 +17,33 @@ x-api-key: fec4a72b2d6ee57c7d683f0e5317e6160ae7d84439890887e7f1c34952bffc5feb864
 
 POST {{url_dev}}/shop/login
 Content-Type: application/json
-x-api-key: fec4a72b2d6ee57c7d683f0e5317e6160ae7d84439890887e7f1c34952bffc5feb864cad8daa4e3064c7587be53d6e6b931de1835c842ee5d5483d574bfe208d
+x-api-key: 967a5ee0f1863b1d118ed9950f65a3408e089ac6b5b4fd967e3c979e7753d1f8f50a5d4388722a08a507d9d4b57780a0170a1c18be4428855266f145dc194da7
 
 {
   "email": "newitem2@gmail.com",
   "password": "123"
+}
+
+
+### create product
+
+POST {{url_dev}}/product/create
+Content-Type: application/json
+x-api-key: 967a5ee0f1863b1d118ed9950f65a3408e089ac6b5b4fd967e3c979e7753d1f8f50a5d4388722a08a507d9d4b57780a0170a1c18be4428855266f145dc194da7
+x-client-id: 656eb9da20a69e6a732e8d01
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZlYjlkYTIwYTY5ZTZhNzMyZThkMDEiLCJpYXQiOjE3MDE3NTU0NzAsImV4cCI6MTcwMTkyODI3MH0.INCZlDwl70zlPc6RbgUO5mDDMvYF_5dMVFaOYiJFcx0
+
+{
+  "product_type": "ÁO THUN Boxy LS Short Tee CHUOTTRANG",
+  "product_name": "CHUOTTRANG",
+  "product_thumb": "https://img.ws.mms.shopee.vn/vn-11134207-7r98o-llup6wryw2jje3",
+  "product_description": "ÁO THUN Boxy LS Short Tee CHUOTTRANG",
+  "product_price": 480000,
+  "product_quantity": 200,
+  "product_shop": "656eb9da20a69e6a732e8d01",
+  "product_attributes": {
+    "brand": "CHUOTTRANG",
+    "size": "XL",
+    "material": "Black"
+  }
 }
