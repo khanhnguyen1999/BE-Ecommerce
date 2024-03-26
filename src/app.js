@@ -7,7 +7,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const bodyParser = require('body-parser')
 // init middlewares
-app.use(morgan("dev"));
+app.use(morgan("dev")); // log information depend on input  -> common short tiny ,...
 app.use(helmet()); // format when hacker use --include to see information
 app.use(compression()); // giảm trọng lượng data trả lên
 app.use(express.json());
@@ -22,16 +22,16 @@ const { checkOverload } = require('./helpers/check.connect')
 // checkOverload();
 
 // init routes
-app.use('/',require('./routes'))
+app.use('/', require('./routes'))
 
 // handling error
-app.use((req,res,next)=>{
+app.use((req, res, next) => {
     const error = new Error('Not found')
     error.status = 404
     next(error)
 })
 
-app.use((error,req,res,next)=>{
+app.use((error, req, res, next) => {
     const statusCode = error.status || 500
     return res.status(statusCode).json({
         status: 'error',

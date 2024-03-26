@@ -1,20 +1,18 @@
 "use strict";
 
 const mongoose = require("mongoose");
-const { db: {username, password} } = require('../configs/config.mongodb')
+const { db: { host, name, port } } = require('../configs/config.mongodb')
 const { countConnect } = require('../helpers/check.connect')
 
-const connectString =
-  `mongodb+srv://${username}:${password}@cluster0.ktedpzh.mongodb.net/?retryWrites=true&w=majority/`;
-
-  class Database {
+const connect = `mongodb://${host}:${port}/?directConnection=true&serverSelectionTimeoutMS=2000&appName=${name}`
+class Database {
   constructor() {
     this.connect();
   }
   // connect
   connect(type = "mongodb") {
     mongoose
-      .connect(`${process.env.MONGODB_URL}/${process.env.DB_NAME}`, {
+      .connect(connect, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       })

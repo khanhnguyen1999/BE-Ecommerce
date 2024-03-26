@@ -1,6 +1,8 @@
 "use strict";
 
 const { findById } = require("../services/apiKey.service");
+const apikeyModel = require("../models/apiKey.model")
+const crypto = require("crypto")
 
 const HEADERS = {
   API_KEY: "x-api-key",
@@ -9,6 +11,8 @@ const HEADERS = {
 
 const apiKey = async (req, res, next) => {
   try {
+    const newKey = await apikeyModel.create({ key: crypto.randomBytes(64).toString('hex'), permission: ['0000'] })
+    console.log('newKey ', newKey)
     const key = req.headers[HEADERS.API_KEY]?.toString();
     if (!key) {
       return res.status(403).json({
@@ -24,7 +28,7 @@ const apiKey = async (req, res, next) => {
     }
     req.objKey = objKey;
     return next();
-  } catch (err) {}
+  } catch (err) { }
 };
 
 const checkPermission = (permission) => {

@@ -3,21 +3,23 @@
 // lv0
 const dev = {
   app: {
-    port: process.env.DEV_APP_PORT
+    port: process.env.DEV_APP_PORT || 3052
   },
   db: {
-    username: process.env.DEV_DB_USERNAME,
-    password: process.env.DEV_DB_PASSWORD,
+    host: process.env.DEV_DB_HOST || 'localhost',
+    port: process.env.DEV_DB_PORT || 27017,
+    name: process.env.DEV_DB_NAME || 'Ecommerce',
   }
 }
 
 const prod = {
   app: {
-    port: process.env.PRO_APP_PORT
+    port: process.env.PRO_APP_PORT || 3000
   },
   db: {
-    username: process.env.PRO_DB_USERNAME,
-    password: process.env.PRO_DB_PASSWORD
+    host: process.env.PRO_DB_HOST || 'localhost',
+    port: process.env.PRO_DB_PORT || 27017,
+    name: process.env.PRO_DB_NAME || 'Ecommerce',
   }
 }
 

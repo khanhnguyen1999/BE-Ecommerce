@@ -64,7 +64,7 @@ class AccessService {
   };
 
   static logout = async (keyStore) => {
-    return (delKey = await keyTokenService.removeKeyById(keyStore._id));
+    return (await keyTokenService.removeKeyById(keyStore._id));
   };
 
   static login = async ({ email, password, refreshToken = null }) => {
@@ -131,7 +131,6 @@ class AccessService {
         //     format: 'pem'
         //   }
         // })
-
         const privateKey = crypto.randomBytes(64).toString("hex");
         const publicKey = crypto.randomBytes(64).toString("hex");
 

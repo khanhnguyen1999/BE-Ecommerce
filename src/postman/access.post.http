@@ -1,10 +1,10 @@
 
-@url_dev=http://localhost:3000/v1/api
+@url_dev=http://localhost:3052/v1/api
 ### signup
 
 POST {{url_dev}}/shop/signup
 Content-Type: application/json
-x-api-key: 967a5ee0f1863b1d118ed9950f65a3408e089ac6b5b4fd967e3c979e7753d1f8f50a5d4388722a08a507d9d4b57780a0170a1c18be4428855266f145dc194da7
+x-api-key: 3febd6a90d8256f09d2a24d9b8b681c35e3933cc6a08b2fcbc9d9dfdb9117560be9b7725699f4472a2f0573c78b25665de92b37076c50697e8732a2587574d49
 
 {
   "name": "Khanh Nguyen",
