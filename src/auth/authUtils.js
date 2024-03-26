@@ -13,7 +13,7 @@ const HEADERS = {
 const createTokenPair = async (payload, publicKey, privateKey) => {
   try {
     // access token
-    const accessToken = await JWT.sign(payload, publicKey, {
+    const accessToken = await JWT.sign(payload, process.env.JWT_TOKEN_SECRET, {
       expiresIn: "2 days",
     });
 
@@ -52,12 +52,13 @@ const authentication = asyncHandler(async (req, res, next) => {
   //2
   const keyStore = await findByUserId(userId);
   if (!keyStore) throw new NotFoundError("Not Found keyStore");
+  console.log('userId ',keyStore)
 
   //3
   const accessToken = req.headers[HEADERS.AUTHORIZATION]?.toString();
   if (!accessToken) throw new AuthFailureError("Invalid Request");
   try {
-    const decodeUser = JWT.verify(accessToken, keyStore.publicKey);
+    const decodeUser = JWT.verify(accessToken, process.env.JWT_TOKEN_SECRET);
     if (!decodeUser || userId !== decodeUser.userId)
       throw new AuthFailureError("Invalid Request");
     req.keyStore = keyStore;

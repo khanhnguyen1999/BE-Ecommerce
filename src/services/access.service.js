@@ -64,7 +64,9 @@ class AccessService {
   };
 
   static logout = async (keyStore) => {
-    return (await keyTokenService.removeKeyById(keyStore._id));
+    const delKey = await keyTokenService.removeKeyById(keyStore._id);
+    console.log('keyStore ',delKey)
+    return delKey
   };
 
   static login = async ({ email, password, refreshToken = null }) => {

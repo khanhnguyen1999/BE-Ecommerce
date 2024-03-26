@@ -49,11 +49,11 @@ class keyTokenService {
   };
 
   static findByUserId = async (userId) => {
-    return await keytokenModel.findOne({ user: new Types.ObjectId(userId) }).lean();
+    return await keytokenModel.find({ user: new Types.ObjectId(userId) }).lean();
   };
 
   static removeKeyById = async (id) => {
-    return await keytokenModel.remove(id);
+    return await keytokenModel.deleteOne({"_id": new Types.ObjectId(id)}).lean();
   };
 
   static findByRefreshTokeUsed = async (refreshToken) => {
