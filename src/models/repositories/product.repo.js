@@ -54,6 +54,6 @@ module.exports = {
   findAllDraftForShop,
   findAllPublishForShop,
   publishProductByShop,
-  unpublishProductByShop
+  unpublishProductByShop,
   searchProducts
 }
