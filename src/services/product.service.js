@@ -1,6 +1,6 @@
 'use strict'
 
-const { product, clothing, electronics } = require('../models/product.model');
+const { product, clothes, electronics } = require('../models/product.model');
 const { BadRequestError } = require('../core/error.response')
 // define factory class to create product 
 class ProductFactory {
@@ -44,7 +44,7 @@ class Product {
   }
   // create product
   async createProduct() {
-    return await product.create(this)
+    return await product.create({...this, _id: product._id})
   }
 }
 
@@ -52,7 +52,7 @@ class Product {
 
 class Clothing extends Product {
   async createProduct(){
-    const newClothing = clothing.create(this.product_attributes);
+    const newClothing = clothes.create(this.product_attributes);
     if(!newClothing) throw new BadRequestError('Create new clothing error');
 
     const newProduct = await super.createProduct();
@@ -66,10 +66,13 @@ class Clothing extends Product {
 
 class Electronic extends Product {
   async createProduct(){
-    const newElectronic = electronics.create(this.product_attributes);
+    const newElectronic = electronics.create({
+      ...this.product_attributes,
+      product_shop: this.product_shop
+    });
     if(!newElectronic) throw new BadRequestError('Create new electronic error');
 
-    const newProduct = await super.createProduct();
+    const newProduct = await super.createProduct(newElectronic._id);
     if(!newProduct) throw new BadRequestError('Create new product error');
 
     return newProduct;

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "nodemon": "nodemon start"
+    "nodemon": "nodemon start",
+    "dev": "node --watch server.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,7 +17,8 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "slugify": "^1.6.6"
   },
   "devDependencies": {
     "body-parser": "^1.20.2",

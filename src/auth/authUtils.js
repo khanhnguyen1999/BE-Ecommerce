@@ -8,6 +8,7 @@ const HEADERS = {
   API_KEY: "x-api-key",
   CLIENT_ID: "x-client-id",
   AUTHORIZATION: "authorization",
+  REFRESHTOKEN: "refreshtoken"
 };
 
 const createTokenPair = async (payload, publicKey, privateKey) => {
@@ -52,7 +53,6 @@ const authentication = asyncHandler(async (req, res, next) => {
   //2
   const keyStore = await findByUserId(userId);
   if (!keyStore) throw new NotFoundError("Not Found keyStore");
-  console.log('userId ',keyStore)
 
   //3
   const accessToken = req.headers[HEADERS.AUTHORIZATION]?.toString();
@@ -62,11 +62,48 @@ const authentication = asyncHandler(async (req, res, next) => {
     if (!decodeUser || userId !== decodeUser.userId)
       throw new AuthFailureError("Invalid Request");
     req.keyStore = keyStore;
+    req.user = decodeUser
     next();
   } catch (err) {
     throw err;
   }
 });
+
+const authenticationV2 = asyncHandler(async (req, res, next) => {
+  const userId = req.headers[HEADERS.CLIENT_ID]?.toString();
+
+  if (!userId) throw new AuthFailureError("Invalid Request");
+  const keyStore = await findByUserId(userId);
+  if (!keyStore) throw new NotFoundError("Not Found keyStore");
+
+  if (req.headers[HEADERS.REFRESHTOKEN]) {
+    try {
+      const refreshToken = req.headers[HEADERS.REFRESHTOKEN]
+      const decodeUser = JWT.verify(refreshToken, process.env.JWT_TOKEN_SECRET);
+      if (!decodeUser || userId !== decodeUser.userId)
+        throw new AuthFailureError("Invalid Request");
+      req.keyStore = keyStore;
+      req.user = decodeUser
+      req.refreshToken = refreshToken
+      next();
+    } catch (err) {
+      throw err;
+    }
+  }
+  //3
+  const accessToken = req.headers[HEADERS.AUTHORIZATION]?.toString();
+  if (!accessToken) throw new AuthFailureError("Invalid Request");
+  try {
+    const decodeUser = JWT.verify(accessToken, process.env.JWT_TOKEN_SECRET);
+    if (!decodeUser || userId !== decodeUser.userId)
+      throw new AuthFailureError("Invalid Request");
+    req.keyStore = keyStore;
+    req.user = decodeUser
+    next();
+  } catch (err) {
+    throw err;
+  }
+})
 
 const verifyJWT = async (token, keySecret) => {
   return await JWT.verify(token, keySecret);
@@ -75,5 +112,6 @@ const verifyJWT = async (token, keySecret) => {
 module.exports = {
   createTokenPair,
   authentication,
+  authenticationV2,
   verifyJWT,
 };
