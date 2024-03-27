@@ -24,11 +24,10 @@ const queryProduct = async ({ query, limit, skip }) => {
 
 const publishProductByShop = async ({ product_id, product_shop }) => {
   const foundShop = await product.findOne({ "_id": new Types.ObjectId(product_id), "product_shop": new Types.ObjectId(product_shop) })
-  console.log('foundShop ', foundShop)
   if (!foundShop) return null
   foundShop.isDraft = false
   foundShop.isPublic = true
-  const { modifiedCount } = await product.update(foundShop)
+  const { modifiedCount } = await product.updateOne({ "_id": new Types.ObjectId(product_id), "product_shop": new Types.ObjectId(product_shop) }, foundShop)
   return modifiedCount
 }
 
