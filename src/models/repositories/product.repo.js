@@ -3,7 +3,15 @@
 const { product, electronics, clothes, furnitures } = require("../../models/product.model")
 const { Types } = require("mongoose")
 
-
+const searchProducts = async ({ search }) => {
+  const regexSearch = new RegExp(search)
+  const result = await product.find({
+    $text: { $search: regexSearch },
+  }, {
+    score: { $meta: 'textScore' }
+  }).sort({ score: { $meta: 'textScore' } }).lean()
+  return result
+}
 const findAllDraftForShop = async ({ query, limit, skip }) => {
   return await queryProduct({ query, limit, skip })
 }
@@ -32,8 +40,20 @@ const publishProductByShop = async ({ product_id, product_shop }) => {
 }
 
 
+const unpublishProductByShop = async ({ product_id, product_shop }) => {
+  const foundShop = await product.findOne({ "_id": new Types.ObjectId(product_id), "product_shop": new Types.ObjectId(product_shop) })
+  if (!foundShop) return null
+  foundShop.isDraft = true
+  foundShop.isPublic = false
+  const { modifiedCount } = await product.updateOne({ "_id": new Types.ObjectId(product_id), "product_shop": new Types.ObjectId(product_shop) }, foundShop)
+  return modifiedCount
+}
+
+
 module.exports = {
   findAllDraftForShop,
   findAllPublishForShop,
-  publishProductByShop
+  publishProductByShop,
+  unpublishProductByShop
+  searchProducts
 }

@@ -12,6 +12,7 @@ router.post('/create', asyncHandler(ProductController.createProduct))
 
 // PUT
 router.put('/public?:id', asyncHandler(ProductController.publicProductByShop))
+router.put('/unpublic?:id', asyncHandler(ProductController.unpublicProductByShop))
 
 // QUERY
 router.get('/drafts/all', asyncHandler(ProductController.getAllDraftsForShop))

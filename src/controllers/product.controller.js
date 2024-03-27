@@ -31,6 +31,13 @@ class ProductController {
     }).send(res);
   }
 
+  unpublicProductByShop = async (req, res, next) => {
+    new SuccessResponse({
+      message: "Get list Draft success!",
+      metadata: await ProductServiceV2.unpublishProductByShop({ product_shop: req.user.userId, product_id: req.query.id }),
+    }).send(res);
+  }
+
   // QUERY
   getAllDraftsForShop = async (req, res, next) => {
     new SuccessResponse({
