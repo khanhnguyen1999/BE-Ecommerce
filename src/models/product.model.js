@@ -57,7 +57,7 @@ var productSchema = new Schema(
     },
     isPublic: {
       type: Boolean,
-      default: true,
+      default: false,
       index: true,
       select: false
     },

@@ -2,7 +2,18 @@
 
 const { product, clothes, electronics, furnitures } = require('../models/product.model');
 const { BadRequestError } = require('../core/error.response')
-const { findAllDraftForShop, findAllPublishForShop, publishProductByShop, unpublishProductByShop, searchProducts } = require('../models/repositories/product.repo')
+const {
+  findAllDraftForShop,
+  findAllPublishForShop,
+  publishProductByShop,
+  unpublishProductByShop,
+  searchProducts,
+  findAllProducts,
+  findProduct,
+  updateProductById
+} = require('../models/repositories/product.repo')
+const { removeUndefinedObject, updateNestedObjectParser } = require("../utils")
+
 // define factory class to create product 
 class ProductFactory {
   /*
@@ -14,6 +25,13 @@ class ProductFactory {
     if (!productClass) throw new BadRequestError(`Invalid Product Type ${type}`);
     return new productClass(payload).createProduct()
   }
+
+  static async updateProduct(type, product_id, payload) {
+    const productClass = ProductFactory.productRegistry[type]
+    if (!productClass) throw new BadRequestError(`Invalid Product Type ${type}`);
+    return new productClass(payload).updateProduct(product_id)
+  }
+
 
   static productRegistry = {} // key - class
 
@@ -32,7 +50,7 @@ class ProductFactory {
 
   // query 
 
-  static async searchProducts({search}){
+  static async searchProducts({ search }) {
     return await searchProducts({ search })
   }
 
@@ -45,6 +63,13 @@ class ProductFactory {
     return await findAllPublishForShop({ query, limit, skip })
   }
 
+  static async findAllProducts({ limit = 50, sort = 'ctime', page = 1, filter = { isPublic: true } }) {
+    return await findAllProducts({ limit, sort, page, filter, select: ['product_name', 'product_price', 'product_thumb'] })
+  }
+
+  static async findProduct({ product_id, unSelect = ['__v'] }) {
+    return await findProduct({ product_id, unSelect })
+  }
 }
 
 
@@ -73,6 +98,10 @@ class Product {
   async createProduct() {
     return await product.create({ ...this, _id: product._id })
   }
+
+  async updateProduct({ product_id, body }) {
+    return await updateProductById({ product_id, body, model: product })
+  }
 }
 
 // define sub-class for diferent product types clothing
@@ -86,6 +115,16 @@ class Clothing extends Product {
     if (!newProduct) throw new BadRequestError('Create new product error');
 
     return newProduct;
+  }
+
+  async updateProduct(productId) {
+    const updateNest = updateNestedObjectParser(this);
+    const objectParams = removeUndefinedObject(updateNest);
+    if (objectParams.product_attributes) {
+      updateProductById({ productId, body: updateNestedObjectParser(objectParams.product_attributes), model: clothing });
+    }
+    const updateProduct = await super.updateProduct({ product_id: productId, body: updateNestedObjectParser(objectParams), model: clothing })
+    return updateProduct;
   }
 }
 

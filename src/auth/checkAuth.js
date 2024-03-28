@@ -12,7 +12,6 @@ const HEADERS = {
 const apiKey = async (req, res, next) => {
   try {
     const newKey = await apikeyModel.create({ key: crypto.randomBytes(64).toString('hex'), permission: ['0000'] })
-    console.log('newKey ', newKey)
     const key = req.headers[HEADERS.API_KEY]?.toString();
     if (!key) {
       return res.status(403).json({
