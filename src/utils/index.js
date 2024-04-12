@@ -41,7 +41,7 @@ const updateNestedObjectParser = (obj, prefix = "") => {
 };
 
 
-const convertToObjectId = id => Types.ObjectId(id)
+const convertToObjectId = id => new Types.ObjectId(id)
 
 module.exports = {
   getInforData,
